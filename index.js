@@ -27,7 +27,7 @@ const defaults = {
     enabled: true,
     host: '0.0.0.0',
     port: 6160,
-    key: 'dns-proxy-t7w!184$A6*55WI'
+    key: 'mini-dns-8dj38#A65*5jdsP'
   },
   dyn: {
     enabled: true,
@@ -37,9 +37,10 @@ const defaults = {
     port: 6161,
     hostsFileSync: true,
     customers: [
-      'default': {
-        username: 'default',
-        password: 'default',
+      {
+        customer: 'minidns',
+        username: 'user',
+        password: 'password',
         zones: [
           'dev'
         ]
@@ -51,9 +52,11 @@ const defaults = {
 function MiniDns(options = {}) {
   const minidns = this;
 
-  minidns.config = Object.assign(defaults, options);
-  minidns.store = require('./lib/datastore')(minidns);
   minidns.util = require('./lib/util');
+  minidns.config = Object.assign(defaults, options);
+
+  minidns.store = require('./lib/datastore')(minidns);
+
   minidns.resolver = require('./lib/resolver')(minidns);
 
   minidns.dns = require('./lib/dnsServer')(minidns);
