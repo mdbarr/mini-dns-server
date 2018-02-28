@@ -1,12 +1,13 @@
 {
   "name": "mini-dns-server",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Mini, mostly forwarding, DNS Server with mocked Dyn and Route53 support.",
   "main": "index.js",
   "repository": "git@github.com:mdbarr/mini-dns-server.git",
   "author": "Mark Barr <mark@hyperingenuity.com>",
   "license": "MIT",
   "dependencies": {
+    "async": "^2.6.0",
     "native-dns-packet": "^0.1.1",
     "restify": "^6.3.4"
   },

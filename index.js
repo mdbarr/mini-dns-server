@@ -2,31 +2,44 @@
 'use strict';
 
 const defaults = {
+  options: {
+    allowDynamicZoneCreation: true,
+    defaultTTL: 300,
+    forwardZoneUnknowns: true,
+    silent: false
+  },
   // DNS Server config
   dns: {
     port: 53,
-    host: '0.0.0.0',
+    host: '127.0.0.1', //'0.0.0.0',
     // Default nameservers
     nameservers: [
       '8.8.8.8',
       '8.8.4.4'
     ],
-    // Domain specific nameservers
-    servers: {},
-    // Domain specific answers
-    domains: {
-      'dev': 'A:127.0.0.1'
-    },
-    // Host specific answers (alias)
-    hosts: {
-      'devlocal': 'A:127.0.0.1'
+    // RFC-6761 reserves four TLDs for special use:
+    //   .example, .invalid, .localhost, and .test
+    zones: {
+      test: {
+        name: 'test',
+        authorized: [ 'system', 'minidns' ],
+        A: [ [ 'localhost', {
+          address: '127.0.0.1'
+        } ] ],
+        CNAME: [ [ 'local', {
+          data: 'localhost.test'
+        } ] ]
+      }
     }
   },
   // API Server config
   api: {
     enabled: true,
+    requireAuthorization: true,
+    version: require('./package.json').version,
     host: '0.0.0.0',
     port: 6160,
+    customer: 'system',
     key: 'mini-dns-8dj38#A65*5jdsP'
   },
   dyn: {
@@ -36,16 +49,12 @@ const defaults = {
     host: '0.0.0.0',
     port: 6161,
     hostsFileSync: true,
-    customers: [
-      {
-        customer: 'minidns',
-        username: 'user',
-        password: 'password',
-        zones: [
-          'dev'
-        ]
-      }
-    ]
+    customers: [ {
+      customer: 'minidns',
+      username: 'user',
+      password: 'password',
+      zones: [ 'test' ]
+    } ]
   }
 };
 
@@ -55,9 +64,8 @@ function MiniDns(options = {}) {
   minidns.util = require('./lib/util');
   minidns.config = Object.assign(defaults, options);
 
-  minidns.store = require('./lib/datastore')(minidns);
-
   minidns.resolver = require('./lib/resolver')(minidns);
+  minidns.store = require('./lib/datastore')(minidns);
 
   minidns.dns = require('./lib/dnsServer')(minidns);
   minidns.api = require('./lib/apiServer')(minidns);
