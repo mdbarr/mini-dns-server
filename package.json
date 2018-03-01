@@ -1,6 +1,6 @@
 {
   "name": "mini-dns-server",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Mini, mostly forwarding, DNS Server with mocked Dyn and Route53 support.",
   "main": "index.js",
   "repository": "git@github.com:mdbarr/mini-dns-server.git",
