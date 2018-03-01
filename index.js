@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 'use strict';
 
+const version = require('./package.json').version;
+
 const defaults = {
   options: {
     allowDynamicZoneCreation: true,
@@ -22,12 +24,32 @@ const defaults = {
     zones: {
       test: {
         name: 'test',
-        authorized: [ 'system', 'minidns' ],
+        users: [ 'system', 'minidns' ],
+        SOA: [ [ 'test', {
+          name: 'test',
+          primary: 'ns.test',
+          admin: 'dns-admin.test',
+          refresh: 900,
+          retry: 900,
+          minimum: 60,
+          serial: 0,
+          expiration: 1800
+        } ] ],
         A: [ [ 'localhost', {
           address: '127.0.0.1'
         } ] ],
+        AAAA: [ [ 'localhost', {
+          address: '::1'
+        } ] ],
         CNAME: [ [ 'local', {
           data: 'localhost.test'
+        } ] ],
+        MX: [ [ 'test', {
+          priority: 10,
+          exchange: 'mx.test'
+        } ] ],
+        TXT: [ [ 'test', {
+          data: [ `v=mini-dns-server v${ version }` ]
         } ] ]
       }
     }
@@ -36,9 +58,9 @@ const defaults = {
   api: {
     enabled: true,
     requireAuthorization: true,
-    version: require('./package.json').version,
+    version: version,
     host: '0.0.0.0',
-    port: 6160,
+    port: 5354,
     customer: 'system',
     key: 'mini-dns-8dj38#A65*5jdsP'
   },
@@ -47,7 +69,7 @@ const defaults = {
     requireAuthorization: true,
     version: '3.0.0',
     host: '0.0.0.0',
-    port: 6161,
+    port: 5353,
     hostsFileSync: true,
     customers: [ {
       customer: 'minidns',

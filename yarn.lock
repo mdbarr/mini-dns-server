@@ -178,6 +178,10 @@ clone-regexp@^1.0.0:
     is-regexp "^1.0.0"
     is-supported-regexp-flag "^1.0.0"
 
+clone@2.x:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/clone/-/clone-2.1.1.tgz#d217d1e961118e3ac9a4b8bba3285553bf647cdb"
+
 co@^4.6.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/co/-/co-4.6.0.tgz#6ea6bdf3d853ae54ccb8e47bfa0bf3f9031fb184"
@@ -678,7 +682,7 @@ lodash.get@~4.4.2:
   version "4.4.2"
   resolved "https://registry.yarnpkg.com/lodash.get/-/lodash.get-4.4.2.tgz#2d177f652fa31e939b4438d5341499dfa3825e99"
 
-lodash@^4.14.0, lodash@^4.17.4, lodash@^4.2.1, lodash@^4.3.0:
+lodash@4.x, lodash@^4.14.0, lodash@^4.17.4, lodash@^4.2.1, lodash@^4.3.0:
   version "4.17.5"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.5.tgz#99a92d65c0272debe8c96b6057bc8fbfa3bed511"
 
@@ -759,6 +763,13 @@ ncp@~2.0.0:
 negotiator@^0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.1.tgz#2b327184e8992101177b28563fb5e7102acd0ca9"
+
+node-cache@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/node-cache/-/node-cache-4.1.1.tgz#08524645ee4039dedc3dcc1dd7c6b979e0619e44"
+  dependencies:
+    clone "2.x"
+    lodash "4.x"
 
 object-assign@^4.0.1:
   version "4.1.1"
