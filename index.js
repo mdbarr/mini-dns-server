@@ -95,7 +95,7 @@ function MiniDns (options = {}) {
   minidns.api = require('./lib/apiServer')(minidns);
   minidns.dyn = require('./lib/dynServer')(minidns);
 
-  minidns.boot = function() {
+  minidns.boot = () => {
     minidns.dns.boot();
     minidns.api.boot();
     minidns.dyn.boot();
