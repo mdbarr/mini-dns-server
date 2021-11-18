@@ -7,19 +7,18 @@
   "author": "Mark Barr <mark@hyperingenuity.com>",
   "license": "MIT",
   "dependencies": {
-    "async": "^2.6.0",
+    "async": "^3.2.2",
     "native-dns-packet": "^0.1.1",
-    "node-cache": "^4.1.1",
-    "restify": "^6.3.4"
+    "node-cache": "^5.1.2",
+    "restify": "^8.6.0"
   },
   "devDependencies": {
-    "eslint": "^4.17.0"
+    "eslint": "^7.16.0"
   },
   "scripts": {
     "build": "docker build . -t mdbarr/mini-dns",
     "docker": "docker run -d --rm --name mini-dns -p 127.0.0.1:53:53/tcp -p 127.0.0.1:53:53/udp -p 127.0.0.1:6160:6160 -p 127.0.0.1:6161:6161 --cap-add=NET_ADMIN mdbarr/mini-dns",
-    "fix": "./node_modules/.bin/eslint --fix *.js **/*.js || exit 0",
-    "lint": "./node_modules/.bin/eslint *.js **/*.js || exit 0",
+    "lint": "eslint index.js lib",
     "start": "node ./index.js"
   }
 }
