@@ -1,19 +1,19 @@
 #!/usr/bin/env node
 'use strict';
 
-const version = require('./package.json').version;
+const { version } = require('./package.json');
 
 const defaults = {
   options: {
     allowDynamicZoneCreation: true,
     defaultTTL: 300,
     forwardZoneUnknowns: true,
-    silent: false,
+    silent: true,
   },
   // DNS Server config
   dns: {
-    port: 53,
-    host: '127.0.0.1', // '0.0.0.0',
+    port: 8053,
+    host: '127.0.0.1',
     // Default nameservers
     nameservers: [
       '8.8.8.8',
@@ -56,7 +56,7 @@ const defaults = {
   },
   // API Server config
   api: {
-    enabled: true,
+    enabled: false,
     requireAuthorization: true,
     version,
     host: '0.0.0.0',
@@ -65,7 +65,7 @@ const defaults = {
     key: 'mini-dns-8dj38#A65*5jdsP',
   },
   dyn: {
-    enabled: true,
+    enabled: false,
     requireAuthorization: true,
     version: '3.0.0',
     host: '0.0.0.0',
@@ -92,13 +92,23 @@ function MiniDns (options = {}) {
   minidns.store = require('./lib/datastore')(minidns);
 
   minidns.dns = require('./lib/dnsServer')(minidns);
-  minidns.api = require('./lib/apiServer')(minidns);
-  minidns.dyn = require('./lib/dynServer')(minidns);
+
+  const services = [ minidns.dns ];
+
+  if (minidns.config.api.enabled) {
+    minidns.api = require('./lib/apiServer')(minidns);
+    services.push(minidns.api);
+  }
+
+  if (minidns.config.dyn.enabled) {
+    minidns.dyn = require('./lib/dynServer')(minidns);
+    services.push(minidns.dyn);
+  }
 
   minidns.boot = () => {
-    minidns.dns.boot();
-    minidns.api.boot();
-    minidns.dyn.boot();
+    for (const service of services) {
+      service.boot();
+    }
   };
 
   return minidns;

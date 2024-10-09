@@ -1,25 +1,25 @@
 {
   "name": "mini-dns-server",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "Mini, mostly forwarding, DNS Server with mocked Dyn and Route53 support.",
   "main": "index.js",
   "repository": "git@github.com:mdbarr/mini-dns-server.git",
   "author": "Mark Barr <mark@hyperingenuity.com>",
   "license": "MIT",
   "dependencies": {
-    "async": "^3.2.2",
+    "async": "^3.2.6",
     "native-dns-packet": "^0.1.1",
     "node-cache": "^5.1.2",
-    "restify": "^8.6.0",
-    "yargs": "^17.2.1"
+    "restify": "^11.1.0",
+    "yargs": "^17.7.2"
   },
   "devDependencies": {
-    "eslint": "^7.16.0"
+    "eslint": "^9.12.0"
   },
   "scripts": {
-    "build": "docker build . -t mdbarr/mini-dns",
+    "build": "docker build --pull -t mdbarr/mini-dns .",
     "docker": "docker run -d --rm --name mini-dns -p 127.0.0.1:53:53/tcp -p 127.0.0.1:53:53/udp -p 127.0.0.1:6160:6160 -p 127.0.0.1:6161:6161 --cap-add=NET_ADMIN mdbarr/mini-dns",
-    "lint": "eslint index.js lib",
+    "lint": "eslint",
     "start": "node ./index.js"
   }
 }

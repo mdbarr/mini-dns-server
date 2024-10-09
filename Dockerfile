@@ -1,10 +1,10 @@
-FROM node:carbon-alpine
+FROM node:lts-alpine
 
-WORKDIR /usr/src/app
+WORKDIR /minidns
 
 COPY package.json yarn.lock ./
 
-RUN yarn install && yarn global add forever
+RUN yarn install --production && yarn cache clean
 
 COPY . .
 
@@ -13,4 +13,4 @@ EXPOSE 53/udp
 EXPOSE 6160
 EXPOSE 6161
 
-CMD [ "npm", "start" ]
+ENTRYPOINT [ "./index.js" ]
