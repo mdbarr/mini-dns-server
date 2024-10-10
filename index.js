@@ -8,6 +8,7 @@ const defaults = {
     allowDynamicZoneCreation: true,
     defaultTTL: 300,
     forwardZoneUnknowns: true,
+    maxDepth: 10,
     silent: true,
   },
   // DNS Server config
