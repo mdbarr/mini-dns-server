@@ -4,6 +4,7 @@
 const { version } = require('./package.json');
 
 const defaults = {
+  version,
   options: {
     allowDynamicZoneCreation: true,
     defaultTTL: 300,
