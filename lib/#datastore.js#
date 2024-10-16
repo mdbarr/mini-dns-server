@@ -1,0 +1,57 @@
+'use strict';
+
+function Datastore (minidns) {
+  const store = {
+    prefix: minidns.utils.generateAlphaNumeric(6),
+    zones: {},
+    counter: 0,
+  };
+
+  this.generateId = (length) => {
+    const id = (store.counter++).toString(16);
+    return `${ store.prefix }${ '0'.repeat(length - (id.length + store.prefix.length)) }${ id }`;
+  };
+
+  this.zone = (name) => store.zones[name];
+
+  this.zone.exists = (name) => Boolean(store.zones[name]);
+
+  this.zone.find = (zone, type, name) => {
+    if (this.zone.exists(zone) && store.zones[zone]?.records[type]?.has(name)) {
+      return store.zones[zone]?.records[type]?.get(name);
+    }
+    return null;
+  };
+
+  this.zone.resolver = (zone) => {
+    if (this.zone.exists(zone)) {
+      return store.zones[zone].resolver;
+    }
+    return this.defaultResolver;
+  };
+
+  this.zone.ttl = (zone) => {
+    if (this.zone.exists(zone)) {
+      return store.zones[zone].ttl;
+    }
+    return minidns.config.options.defaultTTL;
+  };
+
+  this.zone.create = (zone) => {
+    store.zones[zone.name] = new Zone(zone);
+    store.zones[zone.name].publish();
+  };
+
+  //////////
+
+  if (minidns.config.dns.zones) {
+    for (const name in minidns.config.dns.zones) {
+      if (Object.hasOwn(minidns.config.dns.zones, name)) {
+        const zone = minidns.config.dns.zones[name];
+        this.zone.create(zone);
+      }
+    }
+  }
+}
+
+module.exports = (minidns) => new Datastore(minidns);

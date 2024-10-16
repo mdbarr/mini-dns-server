@@ -1,0 +1,10 @@
+[Unit]
+Description=Mini DNS Server
+AssertPathExists=/opt/mini-dns-server
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/node /opt/mini-dns-server/index.js
+
+[Install]
+WantedBy=multi-user.target
