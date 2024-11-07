@@ -1,10 +1,13 @@
 [Unit]
 Description=Mini DNS Server
 AssertPathExists=/opt/mini-dns-server
+StartLimitIntervalSec=30
+StartLimitBurst=2
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/node /opt/mini-dns-server/index.js
+ExecStart=/opt/mini-dns-server/bin/cli.js
+Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target
